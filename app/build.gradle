@@ -1,0 +1,68 @@
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-kapt'
+
+android {
+  def globalConfiguration = rootProject.extensions.getByName("ext")
+
+  compileSdkVersion globalConfiguration["androidCompileSdkVersion"]
+  buildToolsVersion globalConfiguration["androidBuildToolsVersion"]
+
+  defaultConfig {
+    applicationId "com.marcelholter.booksassignment"
+    minSdkVersion globalConfiguration["androidMinSdkVersion"]
+    targetSdkVersion globalConfiguration["androidTargetSdkVersion"]
+    versionCode 1
+    versionName "1.0"
+    testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+  }
+  buildTypes {
+    release {
+      minifyEnabled false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+  }
+  compileOptions {
+    sourceCompatibility JavaVersion.VERSION_1_7
+    targetCompatibility JavaVersion.VERSION_1_7
+  }
+}
+
+dependencies {
+  def dependencies = rootProject.ext.dependencies
+  def testDependencies = rootProject.ext.testDependencies
+
+//  implementation project(':domain')
+//  implementation project(':presentation')
+//  implementation project(':data')
+//  implementation project(':remote')
+
+  implementation dependencies.kotlin
+
+  implementation dependencies.appCompat
+  implementation dependencies.recyclerView
+  implementation dependencies.constraintLayout
+  implementation dependencies.cardView
+
+  implementation dependencies.lifecycleExtensions
+
+  implementation dependencies.javaxInject
+
+  implementation dependencies.rxJava
+  implementation dependencies.rxAndroid
+  implementation dependencies.rxBindingsKotlin
+
+  implementation dependencies.dagger
+  kapt dependencies.daggerCompiler
+  implementation dependencies.daggerAndroid
+  implementation dependencies.daggerAndroidSupport
+  kapt dependencies.daggerAndroidProcessor
+
+  implementation dependencies.picasso
+
+  testImplementation testDependencies.jUnit
+  testImplementation testDependencies.assertJ
+
+  androidTestImplementation 'com.android.support.test:runner:1.0.1'
+  androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+}
