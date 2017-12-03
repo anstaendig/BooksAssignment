@@ -14,8 +14,7 @@ import io.reactivex.schedulers.Schedulers
 import org.junit.Before
 import org.junit.Test
 
-class SearchVolumesUseCaseTest {
-
+class SearchVolumesUseCaseImplTest {
   private lateinit var repository: SearchRepository
   private lateinit var useCase: SearchVolumesUseCase
 
@@ -28,7 +27,7 @@ class SearchVolumesUseCaseTest {
   @Test
   fun `Stream should emit InFlight and Success result based on SearchVolumes action success`() {
     val volumes = VolumeFactory.makeVolumePageDomainModel(5)
-    whenever(repository.searchBooks(any())) doReturn Single.just(volumes)
+    whenever(repository.searchVolumes(any())) doReturn Single.just(volumes)
     val testObserver: TestObserver<SearchResult.SearchVolumesResult> = TestObserver.create()
     useCase.getSearchVolumesResult()
         .apply(Observable.just(SearchAction.SearchVolumesAction("queryString")))
@@ -45,7 +44,7 @@ class SearchVolumesUseCaseTest {
   @Test
   fun `Stream should emit InFlight and Failure result based on SearchVolumes action failure`() {
     val throwable = Throwable()
-    whenever(repository.searchBooks(any())) doReturn Single.error(throwable)
+    whenever(repository.searchVolumes(any())) doReturn Single.error(throwable)
     val testObserver: TestObserver<SearchResult.SearchVolumesResult> = TestObserver.create()
     useCase.getSearchVolumesResult()
         .apply(Observable.just(SearchAction.SearchVolumesAction("queryString")))

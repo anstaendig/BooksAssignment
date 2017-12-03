@@ -4,6 +4,9 @@ import com.marcelholter.booksassignment.domain.search.model.VolumeDomainModel
 import com.marcelholter.booksassignment.domain.search.model.VolumeInfoDomainModel
 import com.marcelholter.booksassignment.domain.search.model.VolumePageDomainModel
 
+/**
+ * Factory class to generate models for unit tests
+ */
 object VolumeFactory {
   fun makeVolumePageDomainModel(size: Int): VolumePageDomainModel {
     val volumes: MutableList<VolumeDomainModel> = mutableListOf()

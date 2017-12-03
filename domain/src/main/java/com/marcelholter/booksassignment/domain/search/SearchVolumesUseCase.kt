@@ -17,8 +17,8 @@ import javax.inject.Named
  */
 interface SearchVolumesUseCase {
   /**
-   * Perform [SearchVolumesAction] and map data emitted by [SearchRepository.searchBooks] to [SearchVolumesResult] based on
-   *  emission.
+   * Map operation [SearchRepository.searchVolumes] to [SearchVolumesAction] and emit data as
+   * [SearchVolumesResult].
    */
   fun getSearchVolumesResult():
       ObservableTransformer<SearchAction.SearchVolumesAction, SearchResult.SearchVolumesResult>
@@ -34,7 +34,7 @@ class SearchVolumesUseCaseImpl
       ObservableTransformer<SearchVolumesAction, SearchVolumesResult> {
     return ObservableTransformer { actions: Observable<SearchAction.SearchVolumesAction> ->
       actions.flatMap { action: SearchVolumesAction ->
-        searchRepository.searchBooks(action.queryString)
+        searchRepository.searchVolumes(action.queryString)
             // Move execution on injected background scheduler
             .subscribeOn(backgroundScheduler)
             // Transform to observable to emit beginning InFlight result

@@ -7,6 +7,13 @@ import io.reactivex.Single
  * Interface definition for communication with the data layer.
  */
 interface SearchRepository {
-
-  fun searchBooks(queryString: String): Single<VolumePageDomainModel>
+  /**
+   * Search for books based on a string
+   *
+   * Data is wrapped in [VolumePageDomainModel] for pagination.
+   *
+   * @param[queryString] Query string
+   * @return [Single] that emits [VolumePageDomainModel]
+   */
+  fun searchVolumes(queryString: String): Single<VolumePageDomainModel>
 }
