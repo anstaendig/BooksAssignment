@@ -10,7 +10,7 @@ interface SearchRepository {
   /**
    * Search for books based on a string
    *
-   * Data is wrapped in [VolumePageDomainModel] for pagination.
+   * Maps data to domain model. Data is wrapped in [VolumePageDomainModel] for pagination.
    *
    * @param[queryString] Query string
    * @return [Single] that emits [VolumePageDomainModel]
