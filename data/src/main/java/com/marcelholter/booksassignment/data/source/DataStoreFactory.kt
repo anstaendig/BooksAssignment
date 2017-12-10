@@ -7,9 +7,9 @@ import javax.inject.Inject
  */
 class DataStoreFactory
 @Inject constructor(
-    private val remoteDataStore: RemoteDataStoreImpl
+    private val remoteDataStore: RemoteDataStore
 ) {
-  fun getRemoteDataStore(): DataStore {
+  fun getRemoteDataStore(): RemoteDataStore {
     return remoteDataStore
   }
 }

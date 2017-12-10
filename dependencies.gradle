@@ -76,7 +76,8 @@ ext {
       retrofitConverterMoshi:   "com.squareup.retrofit2:converter-moshi:$retrofitVersion",
       retrofitAdapterRxJava2:   "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
 
-      moshi:                    "com.squareup.moshi:moshi-kotlin:$moshiVersion",
+      moshi:                    "com.squareup.moshi:moshi:$moshiVersion",
+      moshiKotlin:              "com.squareup.moshi:moshi-kotlin:$moshiVersion",
       moshiAdapters:            "com.squareup.moshi:moshi-adapters:$moshiVersion",
 
       okHttp:                   "com.squareup.okhttp3:okhttp:$okHttpVersion",

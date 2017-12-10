@@ -16,8 +16,8 @@ class SearchRepositoryImpl
     private val dataStoreFactory: DataStoreFactory,
     private val volumePageMapper: VolumePageMapper
 ) : SearchRepository {
-  override fun searchVolumes(queryString: String): Single<VolumePageDomainModel> {
-    return dataStoreFactory.getRemoteDataStore().searchVolumes(queryString)
+  override fun searchVolumes(queryString: String, startIndex: Int): Single<VolumePageDomainModel> {
+    return dataStoreFactory.getRemoteDataStore().searchVolumes(queryString, startIndex)
         .map { volumePage: VolumePageDataModel ->
           volumePageMapper.mapToDomainModel(volumePage)
         }

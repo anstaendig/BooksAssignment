@@ -1,7 +1,7 @@
 package com.marcelholter.booksassignment.data.search
 
+import com.marcelholter.booksassignment.data.search.model.ImageLinksDataModel
 import com.marcelholter.booksassignment.data.search.model.VolumeDataModel
-import com.marcelholter.booksassignment.data.search.model.VolumeInfoDataModel
 import com.marcelholter.booksassignment.data.search.model.VolumePageDataModel
 
 /**
@@ -13,19 +13,12 @@ object VolumeFactory {
     repeat(size) {
       volumes.add(makeVolumeDataModel())
     }
-    return VolumePageDataModel(100, volumes)
+    return VolumePageDataModel(volumes, 100)
   }
 
   fun makeVolumeDataModel(): VolumeDataModel {
     return VolumeDataModel(
         "id",
-        "selfLink",
-        makeVolumeInfoDataModel()
-    )
-  }
-
-  fun makeVolumeInfoDataModel(): VolumeInfoDataModel {
-    return VolumeInfoDataModel(
         "title",
         "subtitle",
         listOf("author1", "author2"),
@@ -33,14 +26,22 @@ object VolumeFactory {
         "26.12.2015",
         "description",
         140,
-        150,
+        "mainCategory",
         listOf("category1", "category2"),
-        "maturityRating",
-        "imageLink",
+        2.5F,
+        150,
+        ImageLinksDataModel(
+            "thumbnail",
+            "small",
+            "medium",
+            "large",
+            "smallThumbnail",
+            "extraLarge"
+        ),
         "language",
         "previewLink",
-        "infoLink",
-        "canonialVolumeLink"
+        "canonicalVolumeLink",
+        "searchTextSnippet"
     )
   }
 }

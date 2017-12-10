@@ -1,7 +1,5 @@
 package com.marcelholter.booksassignment.domain.search
 
-import com.marcelholter.booksassignment.domain.search.model.SearchAction
-import com.marcelholter.booksassignment.domain.search.model.SearchResult
 import com.marcelholter.booksassignment.domain.search.repository.SearchRepository
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn

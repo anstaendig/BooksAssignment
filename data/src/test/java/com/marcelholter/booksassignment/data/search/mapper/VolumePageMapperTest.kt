@@ -9,8 +9,8 @@ class VolumePageMapperTest {
   fun `Should map data to domain model successfully`() {
     val volumePageData = VolumeFactory.makeVolumePageDataModel(5)
     val volumePageDomain =
-        VolumePageMapper(VolumeMapper(VolumeInfoMapper())).mapToDomainModel(volumePageData)
-    assertThat(volumePageData.totalVolumes).isEqualTo(volumePageDomain.totalVolumes)
+        VolumePageMapper(VolumeMapper()).mapToDomainModel(volumePageData)
+    assertThat(volumePageData.totalItems).isEqualTo(volumePageDomain.totalVolumes)
     assertThat(volumePageDomain.volumes).hasSize(5)
   }
 }

@@ -8,12 +8,14 @@ import io.reactivex.Single
  */
 interface SearchRepository {
   /**
-   * Search for books based on a string
+   * Search for books based on a string.
    *
-   * Maps data to domain model. Data is wrapped in [VolumePageDomainModel] for pagination.
+   * Use [startIndex] for pagination. Maps data to domain model. Data is wrapped in
+   * [VolumePageDomainModel] for pagination.
    *
    * @param[queryString] Query string
+   * @param[startIndex] Index for page. Default 0 for first page
    * @return [Single] that emits [VolumePageDomainModel]
    */
-  fun searchVolumes(queryString: String): Single<VolumePageDomainModel>
+  fun searchVolumes(queryString: String, startIndex: Int = 0): Single<VolumePageDomainModel>
 }

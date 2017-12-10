@@ -1,14 +1,13 @@
 package com.marcelholter.booksassignment.data.remote
 
+import com.marcelholter.booksassignment.data.search.adapter.VolumeDataJsonAdapter
 import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
-import com.squareup.moshi.Rfc3339DateJsonAdapter
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.Date
 
 private const val BASE_URL = "https://www.googleapis.com/books/v1/"
 
@@ -44,7 +43,7 @@ object ServiceFactory {
 
   private fun buildMoshiConverterFactory(): MoshiConverterFactory {
     val moshi = Moshi.Builder()
-        .add(Date::class.java, Rfc3339DateJsonAdapter())
+        .add(VolumeDataJsonAdapter())
         .add(KotlinJsonAdapterFactory())
         .build()
     return MoshiConverterFactory.create(moshi)

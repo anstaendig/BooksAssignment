@@ -12,8 +12,8 @@ class VolumePageMapper
 ) : Mapper<VolumePageDataModel, VolumePageDomainModel> {
   override fun mapToDomainModel(dataModel: VolumePageDataModel): VolumePageDomainModel {
     return VolumePageDomainModel(
-        dataModel.totalVolumes,
-        dataModel.volumes.map { volumeDataModel: VolumeDataModel ->
+        dataModel.totalItems,
+        dataModel.items.map { volumeDataModel: VolumeDataModel ->
           volumeMapper.mapToDomainModel(volumeDataModel)
         }
     )

@@ -32,9 +32,9 @@ dependencies {
   def dependencies = rootProject.ext.dependencies
   def testDependencies = rootProject.ext.testDependencies
 
-//  implementation project(':domain')
-//  implementation project(':presentation')
-//  implementation project(':data')
+  implementation project(':domain')
+  implementation project(':presentation')
+  implementation project(':data')
 //  implementation project(':remote')
 
   implementation dependencies.kotlin
