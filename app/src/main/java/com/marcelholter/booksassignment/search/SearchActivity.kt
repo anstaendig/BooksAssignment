@@ -13,11 +13,10 @@ import android.widget.ProgressBar
 import android.widget.Toast
 import com.marcelholter.booksassignment.R
 import com.marcelholter.booksassignment.presentation.search.SearchEvent
-import com.marcelholter.booksassignment.presentation.search.SearchEvent.OnSearchCleared
 import com.marcelholter.booksassignment.presentation.search.SearchEvent.OnSearchClicked
 import com.marcelholter.booksassignment.presentation.search.SearchViewModel
 import com.marcelholter.booksassignment.presentation.search.SearchViewState
-import com.marcelholter.booksassignment.presentation.search.model.VolumePagePresentationModel
+import com.marcelholter.booksassignment.presentation.search.model.VolumePresentationModel
 import com.marcelholter.booksassignment.util.bindView
 import com.marcelholter.booksassignment.util.go
 import com.marcelholter.booksassignment.util.show
@@ -63,7 +62,10 @@ class SearchActivity : DaggerAppCompatActivity() {
     // configuration change
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
     // Subscribe to view state observable from ViewModel
-    disposables.add(viewModel.viewState.subscribe(this::render))
+    disposables.add(
+        viewModel.viewState
+            .subscribe(this::render)
+    )
     // Setup RecyclerView
     with(recyclerView) {
       layoutManager = this@SearchActivity.layoutManager
@@ -76,19 +78,17 @@ class SearchActivity : DaggerAppCompatActivity() {
     menuInflater.inflate(R.menu.a_search_menu, menu)
     val searchView: SearchView = menu.findItem(R.id.a_search_menu_search).actionView as SearchView
     searchView.setOnQueryTextListener(object : OnQueryTextListener {
-      override fun onQueryTextSubmit(query: String?): Boolean {
-        viewModel.eventStream.accept(OnSearchClicked(searchView.query.toString()))
+      override fun onQueryTextSubmit(query: String): Boolean {
+        viewModel.eventStream.accept(OnSearchClicked(query))
+        recyclerView.scrollTo(0, 0)
+        onScrollListener.resetState()
         return true
       }
 
-      override fun onQueryTextChange(newText: String?): Boolean {
+      override fun onQueryTextChange(newText: String): Boolean {
         return true
       }
     })
-    searchView.setOnCloseListener {
-      viewModel.eventStream.accept(OnSearchCleared)
-      false
-    }
     return true
   }
 
@@ -102,9 +102,8 @@ class SearchActivity : DaggerAppCompatActivity() {
    */
   private fun render(viewState: SearchViewState) {
     showLoading(viewState.loading)
-    showLoadingNextPage(viewState.loadingNextPage)
     showError(viewState.error)
-    showVolumePage(viewState.volumePage)
+    showVolumes(viewState.volumes, viewState.totalVolumes)
   }
 
   private fun showLoading(loading: Boolean) {
@@ -115,22 +114,18 @@ class SearchActivity : DaggerAppCompatActivity() {
     }
   }
 
-  private fun showLoadingNextPage(loadingNextPage: Boolean) {
-  }
-
   private fun showError(error: Throwable?) {
     error?.let {
       Toast.makeText(this, it.localizedMessage, Toast.LENGTH_LONG).show()
     }
   }
 
-  private fun showVolumePage(volumePage: VolumePagePresentationModel?) {
-    if (volumePage == null) {
-      onScrollListener.resetState()
-      searchAdapter.setVolumes(emptyList())
-    } else {
-      onScrollListener.totalItemCount = volumePage.totalVolumes
-      searchAdapter.setVolumes(volumePage.volumes)
-    }
+  private fun showVolumes(
+      volumes: List<VolumePresentationModel>,
+      totalVolumes: Int
+  ) {
+    onScrollListener.totalItemCount = totalVolumes
+    searchAdapter.setVolumes(volumes)
+    recyclerView.show()
   }
 }

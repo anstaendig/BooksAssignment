@@ -35,7 +35,6 @@ class SearchAdapter(
     volume.imageLinks.thumbnail?.let { holder.coverImageView.loadUri(it) }
     holder.titleTextView.text = volume.title
     holder.authorTextView.text = volume.authors.joinToString(", ")
-    holder.languageTextView.text = "Language: ${volume.language}"
     holder.ratingBar.rating = volume.averageRating
   }
 
@@ -63,7 +62,6 @@ class SearchAdapter(
     val coverImageView: ImageView by bindView(R.id.vh_volume_image_view_cover)
     val titleTextView: TextView by bindView(R.id.vh_volume_text_view_title)
     val authorTextView: TextView by bindView(R.id.vh_volume_text_view_author)
-    val languageTextView: TextView by bindView(R.id.vh_volume_text_view_language)
     val ratingBar: RatingBar by bindView(R.id.vh_volume_rating_bar)
   }
 

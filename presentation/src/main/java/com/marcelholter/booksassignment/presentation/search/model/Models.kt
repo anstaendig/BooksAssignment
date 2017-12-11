@@ -1,10 +1,14 @@
 package com.marcelholter.booksassignment.presentation.search.model
 
+import android.os.Parcelable
+import kotlinx.android.parcel.Parcelize
+
 data class VolumePagePresentationModel(
     val totalVolumes: Int,
     val volumes: List<VolumePresentationModel>
 )
 
+@Parcelize
 data class VolumePresentationModel(
     val id: String?,
     val title: String,
@@ -23,8 +27,9 @@ data class VolumePresentationModel(
     val previewLink: String?,
     val canonicalVolumeLink: String,
     val searchTextSnippet: String
-)
+) : Parcelable
 
+@Parcelize
 data class ImageLinksPresentationModel(
     val thumbnail: String?,
     val small: String?,
@@ -32,4 +37,4 @@ data class ImageLinksPresentationModel(
     val large: String?,
     val smallThumbnail: String?,
     val extraLarge: String?
-)
+) : Parcelable

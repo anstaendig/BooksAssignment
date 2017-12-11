@@ -7,6 +7,16 @@
     android:layout_height="match_parent"
     >
 
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/a_search_recycler_view"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:clipChildren="false"
+      android:clipToPadding="false"
+      android:paddingBottom="16dp"
+      android:paddingTop="16dp"
+      />
+
   <ProgressBar
       android:id="@+id/a_search_progress_bar"
       android:layout_width="wrap_content"
@@ -18,15 +28,5 @@
       app:layout_constraintTop_toTopOf="parent"
       tools:visibility="visible"
       style="?android:attr/progressBarStyle"
-      />
-
-  <android.support.v7.widget.RecyclerView
-      android:id="@+id/a_search_recycler_view"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:clipChildren="false"
-      android:clipToPadding="false"
-      android:paddingBottom="16dp"
-      android:paddingTop="16dp"
       />
 </android.support.constraint.ConstraintLayout>

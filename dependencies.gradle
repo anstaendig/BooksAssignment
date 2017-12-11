@@ -55,6 +55,7 @@ ext {
       appCompat:                "com.android.support:appcompat-v7:$supportLibraryVersion",
       recyclerView:             "com.android.support:recyclerview-v7:$supportLibraryVersion",
       constraintLayout:         "com.android.support.constraint:constraint-layout:$constraintLayoutVersion",
+      design:                   "com.android.support:design:$supportLibraryVersion",
       cardView:                 "com.android.support:cardview-v7:$supportLibraryVersion",
 
       lifecycleExtensions:      "android.arch.lifecycle:extensions:$architectureComponentsVersion",

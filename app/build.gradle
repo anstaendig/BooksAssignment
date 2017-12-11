@@ -35,13 +35,13 @@ dependencies {
   implementation project(':domain')
   implementation project(':presentation')
   implementation project(':data')
-//  implementation project(':remote')
 
   implementation dependencies.kotlin
 
   implementation dependencies.appCompat
   implementation dependencies.recyclerView
   implementation dependencies.constraintLayout
+  implementation dependencies.design
   implementation dependencies.cardView
 
   implementation dependencies.lifecycleExtensions

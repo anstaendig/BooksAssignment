@@ -8,5 +8,6 @@ data class SearchViewState(
     val loading: Boolean,
     val loadingNextPage: Boolean,
     val error: Throwable?,
-    val volumePage: VolumePagePresentationModel?
+    val totalVolumes: Int,
+    val volumes: List<VolumePresentationModel>
 ) : BaseViewState

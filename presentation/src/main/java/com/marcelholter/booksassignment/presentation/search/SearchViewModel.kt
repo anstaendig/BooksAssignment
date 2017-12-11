@@ -24,24 +24,6 @@ class SearchViewModel
     private val searchVolumesUseCase: SearchVolumesUseCase,
     private val volumeMapper: VolumeMapper
 ) : ViewModel(), BaseViewModel<SearchEvent, SearchViewState> {
-  override val eventStream: PublishRelay<SearchEvent> = PublishRelay.create()
-  override val viewState: Observable<SearchViewState>
-    get() {
-      return eventStream
-          // Event -> Action
-          .compose(actions)
-          // Action -> Result
-          .compose(results)
-          // Cache view state and reduce it to create a new state emission and the latest Result
-          // emitted from use cases.
-          .scan<SearchViewState>(
-              SearchViewState(false, false, null, null),
-              reducer())
-          // Emit last emission again so that view gets latest state after configuration change.
-          .replay(1)
-          // Stream shall stay alive even if view unsubscribes/disconnects.
-          .autoConnect(0)
-    }
 
   // Transform stream from search click event to corresponding action
   private val searchVolumesAction: ObservableTransformer<SearchEvent.OnSearchClicked, SearchAction.SearchVolumesAction> =
@@ -79,7 +61,7 @@ class SearchViewModel
       }
 
   // Map each individual SearchAction to it's business logic that returns SearchResult and combine
-  // in one stream
+// in one stream
   private val results: ObservableTransformer<SearchAction, SearchResult> =
       ObservableTransformer { actions: Observable<SearchAction> ->
         actions.publish { action: Observable<SearchAction> ->
@@ -94,6 +76,30 @@ class SearchViewModel
         }
       }
 
+  override val eventStream: PublishRelay<SearchEvent> = PublishRelay.create()
+  override val viewState: Observable<SearchViewState> =
+      eventStream
+          // Event -> Action
+          .compose(actions)
+          // Action -> Result
+          .compose(results)
+          // Cache view state and reduce it to create a new state emission and the latest Result
+          // emitted from use cases.
+          .scan<SearchViewState>(
+              SearchViewState(
+                  loading = false,
+                  loadingNextPage = false,
+                  error = null,
+                  totalVolumes = 0,
+                  volumes = emptyList()
+              ),
+              reducer())
+          // Emit last emission again so that view gets latest state after configuration change.
+          .replay(1)
+          // Stream shall stay alive even if view unsubscribes/disconnects.
+          .autoConnect(0)
+
+
   /**
    * Reduce previous view state and current result into new view state
    */
@@ -101,18 +107,21 @@ class SearchViewModel
       BiFunction { previousState, result ->
         when (result) {
           is SearchResult.SearchVolumesResult.InFlight ->
-            previousState.copy(loading = true)
+            previousState.copy(
+                loading = true
+            )
           is SearchResult.SearchVolumesResult.Failure ->
-            previousState.copy(loading = false, error = result.throwable)
+            previousState.copy(
+                loading = false,
+                error = result.throwable
+            )
           is SearchResult.SearchVolumesResult.Success ->
             SearchViewState(
                 loading = false,
                 loadingNextPage = false,
                 error = null,
-                volumePage = VolumePagePresentationModel(
-                    result.volumes.totalVolumes,
-                    result.volumes.volumes.map { volumeMapper.mapToPresentationModel(it) }
-                )
+                totalVolumes = result.volumes.totalVolumes,
+                volumes = result.volumes.volumes.map { volumeMapper.mapToPresentationModel(it) }
             )
           is SearchResult.NextPageResult.InFlight ->
             previousState.copy(
@@ -127,19 +136,17 @@ class SearchViewModel
             previousState.copy(
                 loadingNextPage = false,
                 error = null,
-                volumePage = VolumePagePresentationModel(
-                    result.volumes.totalVolumes,
-                    previousState.volumePage!!.volumes + result.volumes.volumes.map {
-                      volumeMapper.mapToPresentationModel(it)
-                    }
-                )
+                volumes = previousState.volumes + result.volumes.volumes.map {
+                  volumeMapper.mapToPresentationModel(it)
+                }
             )
           is SearchResult.ClearSearchResult ->
             SearchViewState(
                 loading = false,
                 loadingNextPage = false,
                 error = null,
-                volumePage = null
+                totalVolumes = 0,
+                volumes = emptyList()
             )
         }
       }

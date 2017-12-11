@@ -5,10 +5,14 @@ import android.view.View
 /* Useful extension functions on Views */
 
 fun View.show() {
-  this.visibility = View.VISIBLE
+  visibility = View.VISIBLE
+}
+
+fun View.hide() {
+  visibility = View.INVISIBLE
 }
 
 fun View.go() {
-  this.visibility = View.GONE
+  visibility = View.GONE
 }
 

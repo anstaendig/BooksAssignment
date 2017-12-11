@@ -29,6 +29,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:scaleType="centerCrop"
+        android:transitionName="vh_volume_image_view_cover"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="H,4:3"
         app:layout_constraintStart_toStartOf="parent"
@@ -38,10 +39,15 @@
 
     <TextView
         android:id="@+id/vh_volume_text_view_title"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:ellipsize="end"
         android:includeFontPadding="false"
+        android:maxLines="2"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/vh_volume_image_view_cover"
         app:layout_constraintTop_toTopOf="@id/vh_volume_image_view_cover"
         tools:text="Book Title"
@@ -49,9 +55,15 @@
 
     <TextView
         android:id="@+id/vh_volume_text_view_author"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:textSize="12sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/vh_volume_image_view_cover"
         app:layout_constraintTop_toBottomOf="@id/vh_volume_text_view_title"
         tools:text="Author"
@@ -60,25 +72,13 @@
     <RatingBar
         android:id="@+id/vh_volume_rating_bar"
         android:layout_width="wrap_content"
-        android:layout_height="24dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintStart_toEndOf="@id/vh_volume_image_view_cover"
-        app:layout_constraintTop_toBottomOf="@+id/vh_volume_text_view_author"
-        style="@style/Base.Widget.AppCompat.RatingBar.Small"
-        />
-
-    <TextView
-        android:id="@+id/vh_volume_text_view_language"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:includeFontPadding="false"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="@id/vh_volume_image_view_cover"
         app:layout_constraintStart_toEndOf="@id/vh_volume_image_view_cover"
-        tools:text="Language"
+        style="@style/Base.Widget.AppCompat.RatingBar.Small"
         />
-
 
   </android.support.constraint.ConstraintLayout>
 
