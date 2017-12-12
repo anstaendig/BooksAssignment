@@ -7,8 +7,6 @@ dependencies {
 
   implementation dependencies.kotlin
   implementation dependencies.javaxInject
-  implementation dependencies.dagger
-  kapt dependencies.daggerCompiler
   implementation dependencies.rxJava
 
   testImplementation testDependencies.jUnit

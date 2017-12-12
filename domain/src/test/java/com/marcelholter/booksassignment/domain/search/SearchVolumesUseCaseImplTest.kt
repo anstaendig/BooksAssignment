@@ -27,7 +27,7 @@ class SearchVolumesUseCaseImplTest {
     val volumes = VolumeFactory.makeVolumePageDomainModel(5)
     whenever(repository.searchVolumes(any())) doReturn Single.just(volumes)
     val testObserver: TestObserver<SearchResult.SearchVolumesResult> = TestObserver.create()
-    useCase.getSearchVolumesResult()
+    useCase.searchVolumesResult()
         .apply(Observable.just(SearchAction.SearchVolumesAction("queryString")))
         .subscribe(testObserver)
     testObserver
@@ -44,7 +44,7 @@ class SearchVolumesUseCaseImplTest {
     val throwable = Throwable()
     whenever(repository.searchVolumes(any())) doReturn Single.error(throwable)
     val testObserver: TestObserver<SearchResult.SearchVolumesResult> = TestObserver.create()
-    useCase.getSearchVolumesResult()
+    useCase.searchVolumesResult()
         .apply(Observable.just(SearchAction.SearchVolumesAction("queryString")))
         .subscribe(testObserver)
     testObserver

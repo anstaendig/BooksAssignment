@@ -16,5 +16,5 @@ interface RemoteDataStore {
    * @param[startIndex] Index of page. Defaults to 0 for first page.
    * @return [Single] that emits [VolumePageDataModel]
    */
-  fun searchVolumes(queryString: String, startIndex: Int = 0): Single<VolumePageDataModel>
+  fun searchVolumes(queryString: String, startIndex: Int): Single<VolumePageDataModel>
 }

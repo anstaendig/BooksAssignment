@@ -14,7 +14,8 @@ class RemoteDataStoreImpl
 @Inject constructor(
     private val booksService: BooksService
 ) : RemoteDataStore {
+
   override fun searchVolumes(queryString: String, startIndex: Int): Single<VolumePageDataModel> {
-    return booksService.searchVolumes(queryString, startIndex, DEFAULT_PAGE_SIZE)
+    return Single.defer { booksService.searchVolumes(queryString, startIndex, DEFAULT_PAGE_SIZE) }
   }
 }

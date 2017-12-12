@@ -1,4 +1,4 @@
-package com.marcelholter.booksassignment.presentation.injection
+package com.marcelholter.booksassignment.injection
 
 import android.arch.lifecycle.ViewModel
 import android.arch.lifecycle.ViewModelProvider

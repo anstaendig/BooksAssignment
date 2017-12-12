@@ -11,7 +11,9 @@ import android.util.Log
 import android.view.Menu
 import android.widget.ProgressBar
 import android.widget.Toast
+import com.jakewharton.rxrelay2.PublishRelay
 import com.marcelholter.booksassignment.R
+import com.marcelholter.booksassignment.base.BaseView
 import com.marcelholter.booksassignment.presentation.search.SearchEvent
 import com.marcelholter.booksassignment.presentation.search.SearchEvent.OnSearchClicked
 import com.marcelholter.booksassignment.presentation.search.SearchViewModel
@@ -21,6 +23,7 @@ import com.marcelholter.booksassignment.util.bindView
 import com.marcelholter.booksassignment.util.go
 import com.marcelholter.booksassignment.util.show
 import dagger.android.support.DaggerAppCompatActivity
+import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 import kotlin.LazyThreadSafetyMode.NONE
@@ -28,7 +31,8 @@ import kotlin.LazyThreadSafetyMode.NONE
 /**
  * Activity to search for books
  */
-class SearchActivity : DaggerAppCompatActivity() {
+class SearchActivity
+  : BaseView<SearchEvent, SearchViewState>, DaggerAppCompatActivity() {
   private val recyclerView: RecyclerView by bindView(R.id.a_search_recycler_view)
   private val progressBar: ProgressBar by bindView(R.id.a_search_progress_bar)
 
@@ -52,8 +56,17 @@ class SearchActivity : DaggerAppCompatActivity() {
   // Scroll listener initialisation for pagination
   private val onScrollListener: PaginationRecyclerViewOnScrollListener =
       PaginationRecyclerViewOnScrollListener(layoutManager) { startIndex ->
-        viewModel.eventStream.accept(SearchEvent.OnLoadMore(startIndex))
+        viewModel.eventsRelay.accept(SearchEvent.OnLoadMore(startIndex))
       }
+
+  private val onSearchClickedEvent: PublishRelay<SearchEvent.OnSearchClicked> = PublishRelay.create()
+  private val onLoadMoreEvent: PublishRelay<SearchEvent.OnLoadMore> = PublishRelay.create()
+
+  override val events: Observable<SearchEvent> =
+      Observable.merge(
+          onSearchClickedEvent,
+          onLoadMoreEvent
+      )
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
@@ -62,10 +75,7 @@ class SearchActivity : DaggerAppCompatActivity() {
     // configuration change
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
     // Subscribe to view state observable from ViewModel
-    disposables.add(
-        viewModel.viewState
-            .subscribe(this::render)
-    )
+    disposables.add(viewModel.viewStates.subscribe(this::render))
     // Setup RecyclerView
     with(recyclerView) {
       layoutManager = this@SearchActivity.layoutManager
@@ -79,14 +89,13 @@ class SearchActivity : DaggerAppCompatActivity() {
     val searchView: SearchView = menu.findItem(R.id.a_search_menu_search).actionView as SearchView
     searchView.setOnQueryTextListener(object : OnQueryTextListener {
       override fun onQueryTextSubmit(query: String): Boolean {
-        viewModel.eventStream.accept(OnSearchClicked(query))
-        recyclerView.scrollTo(0, 0)
+        viewModel.eventsRelay.accept(OnSearchClicked(query))
         onScrollListener.resetState()
         return true
       }
 
       override fun onQueryTextChange(newText: String): Boolean {
-        return true
+        return false
       }
     })
     return true
@@ -100,7 +109,7 @@ class SearchActivity : DaggerAppCompatActivity() {
   /**
    * Render view state
    */
-  private fun render(viewState: SearchViewState) {
+  override fun render(viewState: SearchViewState) {
     showLoading(viewState.loading)
     showError(viewState.error)
     showVolumes(viewState.volumes, viewState.totalVolumes)

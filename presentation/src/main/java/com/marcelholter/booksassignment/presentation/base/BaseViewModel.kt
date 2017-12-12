@@ -8,6 +8,8 @@ import io.reactivex.Observable
  * based on that stream.
  */
 interface BaseViewModel<E : BaseEvent, VS : BaseViewState> {
-  val eventStream: PublishRelay<E>
-  val viewState: Observable<VS>
+  // Relay for event stream from view
+  val eventsRelay: PublishRelay<E>
+  // View state stream for ui to render
+  val viewStates: Observable<VS>
 }

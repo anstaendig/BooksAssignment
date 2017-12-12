@@ -1,9 +1,6 @@
 package com.marcelholter.booksassignment.injection
 
 import com.marcelholter.booksassignment.BooksApplication
-import com.marcelholter.booksassignment.data.injection.DataModule
-import com.marcelholter.booksassignment.domain.injection.DomainModule
-import com.marcelholter.booksassignment.presentation.injection.PresentationModule
 import dagger.Component
 import dagger.android.AndroidInjector
 import dagger.android.support.AndroidSupportInjectionModule

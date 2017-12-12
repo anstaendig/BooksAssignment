@@ -1,5 +1,6 @@
-package com.marcelholter.booksassignment.data.injection
+package com.marcelholter.booksassignment.injection
 
+import com.marcelholter.booksassignment.BuildConfig
 import com.marcelholter.booksassignment.data.remote.BooksService
 import com.marcelholter.booksassignment.data.remote.RemoteDataStoreImpl
 import com.marcelholter.booksassignment.data.remote.ServiceFactory
@@ -9,16 +10,12 @@ import com.marcelholter.booksassignment.domain.search.repository.SearchRepositor
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import io.reactivex.Scheduler
-import io.reactivex.schedulers.Schedulers
-import javax.inject.Named
 
 /**
  * Module to provide data dependencies.
  */
 @Module
 abstract class DataModule {
-
   /**
    * This is needed to provide dependencies statically.
    */
@@ -26,17 +23,7 @@ abstract class DataModule {
   companion object {
     @Provides
     @JvmStatic
-    @Named("io")
-    fun provideIoScheduler(): Scheduler = Schedulers.io()
-
-    @Provides
-    @JvmStatic
-    @Named("computation")
-    fun provideComputationScheduler(): Scheduler = Schedulers.computation()
-
-    @Provides
-    @JvmStatic
-    fun provideBooksService(): BooksService = ServiceFactory.getService(true)
+    fun provideBooksService(): BooksService = ServiceFactory.getService(BuildConfig.DEBUG)
   }
 
   @Binds
