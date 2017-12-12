@@ -1,21 +1,19 @@
 package com.marcelholter.booksassignment.data.remote
 
 import com.marcelholter.booksassignment.data.search.adapter.VolumeDataJsonAdapter
-import com.squareup.moshi.KotlinJsonAdapterFactory
 import com.squareup.moshi.Moshi
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import javax.inject.Singleton
-
-private const val BASE_URL = "https://www.googleapis.com/books/v1/"
 
 /**
  * Service factory to create retrofit service
  */
 object ServiceFactory {
+  private const val BASE_URL = "https://www.googleapis.com/books/v1/"
+
   fun getService(isDebug: Boolean): BooksService {
     return buildService(
         buildOkHttpClient(
@@ -30,9 +28,9 @@ object ServiceFactory {
       moshiConverterFactory: MoshiConverterFactory
   ): BooksService {
     return Retrofit.Builder()
-        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-        .addConverterFactory(moshiConverterFactory)
         .baseUrl(BASE_URL)
+        .addConverterFactory(moshiConverterFactory)
+        .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
         .client(okHttpClient)
         .build()
         .create(BooksService::class.java)
@@ -45,7 +43,6 @@ object ServiceFactory {
   private fun buildMoshiConverterFactory(): MoshiConverterFactory {
     val moshi = Moshi.Builder()
         .add(VolumeDataJsonAdapter())
-        .add(KotlinJsonAdapterFactory())
         .build()
     return MoshiConverterFactory.create(moshi)
   }

@@ -1,12 +1,12 @@
 ext {
   // Android Build Configuration
-  androidBuildToolsVersion = '26.0.3'
+  androidBuildToolsVersion = '27.0.2'
   androidMinSdkVersion = 21
-  androidTargetSdkVersion = 26
-  androidCompileSdkVersion = 26
+  androidTargetSdkVersion = 27
+  androidCompileSdkVersion = 27
 
   // Android Support Libraries
-  supportLibraryVersion = '26.1.0'
+  supportLibraryVersion = '27.0.2'
   constraintLayoutVersion = '1.1.0-beta3'
 
   // Android Architecture Components
@@ -19,7 +19,6 @@ ext {
   rxJavaVersion = '2.1.4'
   rxRelayVersion = '2.0.0'
   rxAndroidVersion = '2.0.1'
-  rxBindingsKotlinVersion = '2.0.0'
 
   // Dagger
   daggerVersion = '2.12'
@@ -36,9 +35,6 @@ ext {
   // Picasso
   picassoVersion = '2.5.2'
 
-  // Play services
-  playServicesVersion = '11.6.0'
-
   // JUnit
   jUnitVersion = '4.12'
 
@@ -53,23 +49,21 @@ ext {
       kotlin:                   "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlinVersion",
 
       appCompat:                "com.android.support:appcompat-v7:$supportLibraryVersion",
-      recyclerView:             "com.android.support:recyclerview-v7:$supportLibraryVersion",
-      constraintLayout:         "com.android.support.constraint:constraint-layout:$constraintLayoutVersion",
       design:                   "com.android.support:design:$supportLibraryVersion",
+      recyclerView:             "com.android.support:recyclerview-v7:$supportLibraryVersion",
       cardView:                 "com.android.support:cardview-v7:$supportLibraryVersion",
+      constraintLayout:         "com.android.support.constraint:constraint-layout:$constraintLayoutVersion",
 
       lifecycleExtensions:      "android.arch.lifecycle:extensions:$architectureComponentsVersion",
 
       javaxInject:              "javax.inject:javax.inject:$javaxInjectVersion",
 
       rxJava:                   "io.reactivex.rxjava2:rxjava:$rxJavaVersion",
-      rxRelay:                  "com.jakewharton.rxrelay2:rxrelay:$rxRelayVersion",
       rxAndroid:                "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion",
-      rxBindingsKotlin:         "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingsKotlinVersion",
+      rxRelay:                  "com.jakewharton.rxrelay2:rxrelay:$rxRelayVersion",
 
       dagger:                   "com.google.dagger:dagger:$daggerVersion",
       daggerCompiler:           "com.google.dagger:dagger-compiler:$daggerVersion",
-      daggerAndroid:            "com.google.dagger:dagger-android:$daggerVersion",
       daggerAndroidSupport:     "com.google.dagger:dagger-android-support:$daggerVersion",
       daggerAndroidProcessor:   "com.google.dagger:dagger-android-processor:$daggerVersion",
 
@@ -78,7 +72,6 @@ ext {
       retrofitAdapterRxJava2:   "com.squareup.retrofit2:adapter-rxjava2:$retrofitVersion",
 
       moshi:                    "com.squareup.moshi:moshi:$moshiVersion",
-      moshiKotlin:              "com.squareup.moshi:moshi-kotlin:$moshiVersion",
       moshiAdapters:            "com.squareup.moshi:moshi-adapters:$moshiVersion",
 
       okHttp:                   "com.squareup.okhttp3:okhttp:$okHttpVersion",
@@ -89,12 +82,9 @@ ext {
 
   testDependencies = [
       jUnit:                    "junit:junit:$jUnitVersion",
-
       assertJ:                  "org.assertj:assertj-core:$assertJVersion",
-
       mockito:                  "org.mockito:mockito-core:$mockitoVersion",
       mockitoKotlin:            "com.nhaarman:mockito-kotlin:$mockitoKotlinVersion",
-
       archCore:                 "android.arch.core:core-testing:$architectureComponentsVersion"
   ]
 }

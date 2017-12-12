@@ -1,6 +1,5 @@
 package com.marcelholter.booksassignment.presentation.base
 
-import com.jakewharton.rxrelay2.PublishRelay
 import io.reactivex.Observable
 
 /**
@@ -8,8 +7,9 @@ import io.reactivex.Observable
  * based on that stream.
  */
 interface BaseViewModel<E : BaseEvent, VS : BaseViewState> {
-  // Relay for event stream from view
-  val eventsRelay: PublishRelay<E>
+  // Bind event stream to view model
+  fun processEvents(events: Observable<E>)
+
   // View state stream for ui to render
   val viewStates: Observable<VS>
 }

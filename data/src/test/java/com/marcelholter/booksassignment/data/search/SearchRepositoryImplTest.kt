@@ -8,7 +8,6 @@ import com.marcelholter.booksassignment.domain.search.repository.SearchRepositor
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
 import com.nhaarman.mockito_kotlin.whenever
 import io.reactivex.Single
 import org.assertj.core.api.Assertions.assertThat
@@ -32,14 +31,13 @@ class SearchRepositoryImplTest {
   @Test
   fun `Should call remote data store and map data successfully`() {
     val volumePageData = VolumeFactory.makeVolumePageDataModel(5)
-    whenever(remoteDataStore.searchVolumes(any())) doReturn Single.just(volumePageData)
+    whenever(remoteDataStore.searchVolumes(any(), any())) doReturn Single.just(volumePageData)
     val volumeDomainData = searchRepository.searchVolumes("queryString")
         .test()
         .assertNoErrors()
         .assertComplete()
         .assertValueCount(1)
         .values()[0]
-    verify(remoteDataStore).searchVolumes("queryString")
     assertThat(volumeDomainData.totalVolumes).isEqualTo(volumePageData.totalItems)
     assertThat(volumeDomainData.volumes).hasSize(5)
   }
@@ -47,10 +45,9 @@ class SearchRepositoryImplTest {
   @Test
   fun `Should call remote data store and propagate error correctly`() {
     val throwable = Throwable()
-    whenever(remoteDataStore.searchVolumes(any())) doReturn Single.error(throwable)
+    whenever(remoteDataStore.searchVolumes(any(), any())) doReturn Single.error(throwable)
     searchRepository.searchVolumes("queryString")
         .test()
         .assertError(throwable)
-    verify(remoteDataStore).searchVolumes("queryString")
   }
 }

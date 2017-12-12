@@ -9,6 +9,7 @@
     >
 
   <android.support.design.widget.AppBarLayout
+      android:id="@+id/a_detail_app_bar_layout"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:fitsSystemWindows="true"
@@ -19,10 +20,9 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+        android:paddingTop="24dp"
         app:contentScrim="?attr/colorPrimary"
-        app:expandedTitleMarginEnd="64dp"
-        app:expandedTitleMarginStart="48dp"
-        app:layout_scrollFlags="scroll|exitUntilCollapsed"
+        app:layout_scrollFlags="scroll"
         app:titleEnabled="false"
         >
 
@@ -30,27 +30,189 @@
           android:id="@+id/a_detail_image_view_cover"
           android:layout_width="120dp"
           android:layout_height="160dp"
-          android:layout_gravity="center_horizontal"
+          android:layout_gravity="center"
           android:layout_marginBottom="16dp"
           android:layout_marginTop="16dp"
           android:fitsSystemWindows="true"
           android:scaleType="centerCrop"
           android:transitionName="vh_volume_image_view_cover"
-          app:layout_collapseMode="parallax"
           tools:src="@android:drawable/ic_lock_idle_low_battery"
           />
-
-      <!--&lt;!&ndash;<android.support.v7.widget.Toolbar&ndash;&gt;-->
-          <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
-          <!--&lt;!&ndash;android:layout_height="?attr/actionBarSize"&ndash;&gt;-->
-          <!--&lt;!&ndash;app:layout_collapseMode="none"&ndash;&gt;-->
-          <!--&lt;!&ndash;app:popupTheme="@style/ThemeOverlay.AppCompat.Light"&ndash;&gt;-->
-          <!--&lt;!&ndash;&gt;&ndash;&gt;-->
-
-      <!--</android.support.v7.widget.Toolbar>-->
 
     </android.support.design.widget.CollapsingToolbarLayout>
 
   </android.support.design.widget.AppBarLayout>
+
+  <android.support.v4.widget.NestedScrollView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      app:layout_behavior="@string/appbar_scrolling_view_behavior"
+      >
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+      <TextView
+          android:id="@+id/a_detail_text_view_title"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:textSize="20sp"
+          android:textStyle="bold"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toTopOf="parent"
+          tools:text="Book Title"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_label_published_date"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:textSize="12sp"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/a_detail_text_view_title"
+          tools:text="2017"
+          />
+
+      <RatingBar
+          android:id="@+id/a_detail_rating_bar"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="16dp"
+          android:transitionName="vh_volume_rating_bar"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/a_detail_text_view_publisher"
+          style="@style/Base.Widget.AppCompat.RatingBar.Indicator"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_rating"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:textSize="12sp"
+          android:textStyle="italic"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/a_detail_rating_bar"
+          tools:text="Ratings: 2551"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_label_authors"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:gravity="center_horizontal"
+          android:text="@string/a_detail_label_authors"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/a_detail_text_view_label_published_date"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_authors"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          android:layout_marginStart="16dp"
+          app:layout_constraintStart_toEndOf="@id/a_detail_barrier_labels"
+          app:layout_constraintTop_toTopOf="@id/a_detail_text_view_label_authors"
+          tools:text="authors"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_label_publisher"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="8dp"
+          android:gravity="center_horizontal"
+          android:text="@string/a_detail_label_publisher"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/a_detail_text_view_authors"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_publisher"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          android:layout_marginStart="16dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/a_detail_barrier_labels"
+          app:layout_constraintTop_toTopOf="@id/a_detail_text_view_label_publisher"
+          tools:text="publisher"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_label_description"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="8dp"
+          android:layout_marginTop="16dp"
+          android:gravity="center_horizontal"
+          android:text="@string/a_detail_label_description"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/a_detai_image_view_google_play"
+          />
+
+      <TextView
+          android:id="@+id/a_detail_text_view_description"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_marginEnd="8dp"
+          android:layout_marginStart="16dp"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toEndOf="@id/a_detail_barrier_labels"
+          app:layout_constraintTop_toTopOf="@id/a_detail_text_view_label_description"
+          tools:text="description text "
+          />
+
+      <ImageView
+          android:id="@+id/a_detai_image_view_google_play"
+          android:layout_width="0dp"
+          android:layout_height="64dp"
+          android:layout_margin="16dp"
+          android:src="@drawable/google_play_badge"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@id/a_detail_text_view_rating"
+          />
+
+      <android.support.constraint.Barrier
+          android:id="@+id/a_detail_barrier_labels"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          app:barrierDirection="end"
+          app:constraint_referenced_ids="a_detail_text_view_label_publisher,a_detail_text_view_label_authors, a_detail_text_view_label_description"
+          />
+
+    </android.support.constraint.ConstraintLayout>
+
+  </android.support.v4.widget.NestedScrollView>
+
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/a_detail_floating_action_button_preview"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom|end"
+      android:layout_margin="24dp"
+      android:elevation="6dp"
+      android:src="@drawable/ic_library_books_white_48dp"
+      android:visibility="gone"
+      app:layout_behavior="com.marcelholter.booksassignment.util.ScrollAwareFloatingActionButtonBehavior"
+      app:pressedTranslationZ="12dp"
+      tools:visibility="visible"
+      />
 
 </android.support.design.widget.CoordinatorLayout>

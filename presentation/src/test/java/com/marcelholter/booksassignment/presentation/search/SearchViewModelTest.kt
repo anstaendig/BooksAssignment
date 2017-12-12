@@ -4,11 +4,11 @@ import com.marcelholter.booksassignment.domain.search.SearchVolumesUseCase
 import com.marcelholter.booksassignment.domain.search.SearchVolumesUseCaseImpl
 import com.marcelholter.booksassignment.domain.search.repository.SearchRepository
 import com.marcelholter.booksassignment.presentation.search.mapper.VolumeMapper
-import com.marcelholter.booksassignment.presentation.search.model.VolumePagePresentationModel
 import com.nhaarman.mockito_kotlin.any
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.whenever
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.observers.TestObserver
 import io.reactivex.schedulers.Schedulers
@@ -20,6 +20,7 @@ class SearchViewModelTest {
   private lateinit var searchVolumesUseCase: SearchVolumesUseCase
   private lateinit var volumeMapper: VolumeMapper
   private lateinit var viewModel: SearchViewModel
+  private lateinit var statesObserver: TestObserver<SearchViewState>
 
   @Before
   fun setUp() {
@@ -28,26 +29,23 @@ class SearchViewModelTest {
     searchVolumesUseCase =
         SearchVolumesUseCaseImpl(searchRepository, Schedulers.trampoline(), Schedulers.trampoline())
     viewModel = SearchViewModel(searchVolumesUseCase, volumeMapper)
+    statesObserver = viewModel.viewStates.test()
   }
 
   @Test
   fun `OnSearchClicked event should lead to correct view state`() {
     val volumes = VolumeFactory.makeVolumePageDomainModel(5)
-    whenever(searchRepository.searchVolumes(any())) doReturn Single.just(volumes)
-    val testObserver: TestObserver<SearchViewState> = TestObserver.create()
-    viewModel.viewState.subscribe(testObserver)
-    viewModel.eventStream.accept(SearchEvent.OnSearchClicked("queryString"))
-    testObserver.assertValues(
-        SearchViewState(false, false, null, null),
-        SearchViewState(true, false, null, null),
+    whenever(searchRepository.searchVolumes(any(), any())) doReturn Single.just(volumes)
+    viewModel.processEvents(Observable.just(SearchEvent.OnSearchClicked("queryString")))
+    statesObserver.assertValues(
+        SearchViewState(false, false, null, 0, emptyList()),
+        SearchViewState(true, false, null, 0, emptyList()),
         SearchViewState(
             loading = false,
             loadingNextPage = false,
             error = null,
-            volumePage = VolumePagePresentationModel(
-                volumes.totalVolumes,
-                volumes.volumes.map { volumeMapper.mapToPresentationModel(it) }
-            )
+            totalVolumes = 100,
+            volumes = volumes.volumes.map { volumeMapper.mapToPresentationModel(it) }
         )
     )
   }
@@ -55,14 +53,12 @@ class SearchViewModelTest {
   @Test
   fun `OnSearchClicked event should lead to correct error view state`() {
     val throwable = Throwable()
-    whenever(searchRepository.searchVolumes(any())) doReturn Single.error(throwable)
-    val testObserver: TestObserver<SearchViewState> = TestObserver.create()
-    viewModel.viewState.subscribe(testObserver)
-    viewModel.eventStream.accept(SearchEvent.OnSearchClicked("queryString"))
-    testObserver.assertValues(
-        SearchViewState(false, false, null, null),
-        SearchViewState(true, false, null, null),
-        SearchViewState(false, false, throwable, null)
+    whenever(searchRepository.searchVolumes(any(), any())) doReturn Single.error(throwable)
+    viewModel.processEvents(Observable.just(SearchEvent.OnSearchClicked("queryString")))
+    statesObserver.assertValues(
+        SearchViewState(false, false, null, 0, emptyList()),
+        SearchViewState(true, false, null, 0, emptyList()),
+        SearchViewState(false, false, throwable, 0, emptyList())
     )
   }
 }

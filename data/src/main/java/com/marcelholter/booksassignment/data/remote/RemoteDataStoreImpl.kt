@@ -16,6 +16,6 @@ class RemoteDataStoreImpl
 ) : RemoteDataStore {
 
   override fun searchVolumes(queryString: String, startIndex: Int): Single<VolumePageDataModel> {
-    return Single.defer { booksService.searchVolumes(queryString, startIndex, DEFAULT_PAGE_SIZE) }
+    return booksService.searchVolumes(queryString, startIndex, DEFAULT_PAGE_SIZE)
   }
 }

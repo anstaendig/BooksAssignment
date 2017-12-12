@@ -11,6 +11,9 @@ import javax.inject.Named
 
 @Module
 abstract class DomainModule {
+  /**
+   * This is needed to provide dependencies statically.
+   */
   @Module
   companion object {
     @Provides

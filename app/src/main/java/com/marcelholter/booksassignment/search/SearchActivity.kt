@@ -7,7 +7,6 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.SearchView
 import android.support.v7.widget.SearchView.OnQueryTextListener
-import android.util.Log
 import android.view.Menu
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -21,6 +20,7 @@ import com.marcelholter.booksassignment.presentation.search.SearchViewState
 import com.marcelholter.booksassignment.presentation.search.model.VolumePresentationModel
 import com.marcelholter.booksassignment.util.bindView
 import com.marcelholter.booksassignment.util.go
+import com.marcelholter.booksassignment.util.navigateToVolumeDetail
 import com.marcelholter.booksassignment.util.show
 import dagger.android.support.DaggerAppCompatActivity
 import io.reactivex.Observable
@@ -43,8 +43,8 @@ class SearchActivity
 
   // SearchAdapter initialisation. Pass in function for click listener
   private val searchAdapter: SearchAdapter by lazy(NONE) {
-    SearchAdapter { volume ->
-      Log.d("$this:", "Volume: $volume")
+    SearchAdapter { volume, view ->
+      navigateToVolumeDetail(volume, view)
     }
   }
 
@@ -56,7 +56,7 @@ class SearchActivity
   // Scroll listener initialisation for pagination
   private val onScrollListener: PaginationRecyclerViewOnScrollListener =
       PaginationRecyclerViewOnScrollListener(layoutManager) { startIndex ->
-        viewModel.eventsRelay.accept(SearchEvent.OnLoadMore(startIndex))
+        onLoadMoreEvent.accept(SearchEvent.OnLoadMore(startIndex))
       }
 
   private val onSearchClickedEvent: PublishRelay<SearchEvent.OnSearchClicked> = PublishRelay.create()
@@ -64,7 +64,7 @@ class SearchActivity
 
   override val events: Observable<SearchEvent> =
       Observable.merge(
-          onSearchClickedEvent,
+          onSearchClickedEvent.distinctUntilChanged(),
           onLoadMoreEvent
       )
 
@@ -74,8 +74,7 @@ class SearchActivity
     // Get ViewModel from provider. Provider will return same ViewModel instance after
     // configuration change
     viewModel = ViewModelProviders.of(this, viewModelFactory).get(SearchViewModel::class.java)
-    // Subscribe to view state observable from ViewModel
-    disposables.add(viewModel.viewStates.subscribe(this::render))
+    bindToViewModel()
     // Setup RecyclerView
     with(recyclerView) {
       layoutManager = this@SearchActivity.layoutManager
@@ -89,7 +88,7 @@ class SearchActivity
     val searchView: SearchView = menu.findItem(R.id.a_search_menu_search).actionView as SearchView
     searchView.setOnQueryTextListener(object : OnQueryTextListener {
       override fun onQueryTextSubmit(query: String): Boolean {
-        viewModel.eventsRelay.accept(OnSearchClicked(query))
+        onSearchClickedEvent.accept(OnSearchClicked(query))
         onScrollListener.resetState()
         return true
       }
@@ -113,6 +112,14 @@ class SearchActivity
     showLoading(viewState.loading)
     showError(viewState.error)
     showVolumes(viewState.volumes, viewState.totalVolumes)
+  }
+
+  /**
+   * Subscribe to view states from view model and bind event stream to view model
+   */
+  private fun bindToViewModel() {
+    disposables.add(viewModel.viewStates.subscribe(this::render))
+    viewModel.processEvents(events)
   }
 
   private fun showLoading(loading: Boolean) {

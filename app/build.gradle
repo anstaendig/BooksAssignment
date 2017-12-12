@@ -50,11 +50,9 @@ dependencies {
 
   implementation dependencies.rxJava
   implementation dependencies.rxAndroid
-  implementation dependencies.rxBindingsKotlin
 
   implementation dependencies.dagger
   kapt dependencies.daggerCompiler
-  implementation dependencies.daggerAndroid
   implementation dependencies.daggerAndroidSupport
   kapt dependencies.daggerAndroidProcessor
 

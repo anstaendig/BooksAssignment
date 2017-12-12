@@ -1,9 +1,9 @@
 package com.marcelholter.booksassignment.presentation.search
 
+import com.marcelholter.booksassignment.domain.search.model.ImageLinksDomainModel
 import com.marcelholter.booksassignment.domain.search.model.VolumeDomainModel
-import com.marcelholter.booksassignment.domain.search.model.VolumeInfoDomainModel
 import com.marcelholter.booksassignment.domain.search.model.VolumePageDomainModel
-import com.marcelholter.booksassignment.presentation.search.model.VolumeInfoPresentationModel
+import com.marcelholter.booksassignment.presentation.search.model.ImageLinksPresentationModel
 import com.marcelholter.booksassignment.presentation.search.model.VolumePagePresentationModel
 import com.marcelholter.booksassignment.presentation.search.model.VolumePresentationModel
 
@@ -22,13 +22,6 @@ object VolumeFactory {
   fun makeVolumePresentationModel(): VolumePresentationModel {
     return VolumePresentationModel(
         "id",
-        "selfLink",
-        makeVolumeInfoPresentationModel()
-    )
-  }
-
-  fun makeVolumeInfoPresentationModel(): VolumeInfoPresentationModel {
-    return VolumeInfoPresentationModel(
         "title",
         "subtitle",
         listOf("author1", "author2"),
@@ -36,14 +29,22 @@ object VolumeFactory {
         "26.12.2015",
         "description",
         140,
-        150,
+        "mainCategory",
         listOf("category1", "category2"),
-        "maturityRating",
-        "imageLink",
+        2.5F,
+        150,
+        ImageLinksPresentationModel(
+            "thumbnail",
+            "small",
+            "medium",
+            "large",
+            "smallThumbnail",
+            "extraLarge"
+        ),
         "language",
         "previewLink",
-        "infoLink",
-        "canonicalVolumeLink"
+        "canonicalVolumeLink",
+        "searchTextSnippet"
     )
   }
 
@@ -58,13 +59,6 @@ object VolumeFactory {
   fun makeVolumeDomainModel(): VolumeDomainModel {
     return VolumeDomainModel(
         "id",
-        "selfLink",
-        makeVolumeInfoDomainModel()
-    )
-  }
-
-  fun makeVolumeInfoDomainModel(): VolumeInfoDomainModel {
-    return VolumeInfoDomainModel(
         "title",
         "subtitle",
         listOf("author1", "author2"),
@@ -72,14 +66,22 @@ object VolumeFactory {
         "26.12.2015",
         "description",
         140,
-        150,
+        "mainCategory",
         listOf("category1", "category2"),
-        "maturityRating",
-        "imageLink",
+        2.5F,
+        150,
+        ImageLinksDomainModel(
+            "thumbnail",
+            "small",
+            "medium",
+            "large",
+            "smallThumbnail",
+            "extraLarge"
+        ),
         "language",
         "previewLink",
-        "infoLink",
-        "canonicalVolumeLink"
+        "canonicalVolumeLink",
+        "searchTextSnippet"
     )
   }
 }

@@ -25,9 +25,9 @@ class SearchVolumesUseCaseImplTest {
   @Test
   fun `Stream should emit InFlight and Success result based on SearchVolumes action success`() {
     val volumes = VolumeFactory.makeVolumePageDomainModel(5)
-    whenever(repository.searchVolumes(any())) doReturn Single.just(volumes)
+    whenever(repository.searchVolumes(any(), any())) doReturn Single.just(volumes)
     val testObserver: TestObserver<SearchResult.SearchVolumesResult> = TestObserver.create()
-    useCase.searchVolumesResult()
+    useCase.searchVolumesResult
         .apply(Observable.just(SearchAction.SearchVolumesAction("queryString")))
         .subscribe(testObserver)
     testObserver
@@ -42,9 +42,9 @@ class SearchVolumesUseCaseImplTest {
   @Test
   fun `Stream should emit InFlight and Failure result based on SearchVolumes action failure`() {
     val throwable = Throwable()
-    whenever(repository.searchVolumes(any())) doReturn Single.error(throwable)
+    whenever(repository.searchVolumes(any(), any())) doReturn Single.error(throwable)
     val testObserver: TestObserver<SearchResult.SearchVolumesResult> = TestObserver.create()
-    useCase.searchVolumesResult()
+    useCase.searchVolumesResult
         .apply(Observable.just(SearchAction.SearchVolumesAction("queryString")))
         .subscribe(testObserver)
     testObserver

@@ -12,10 +12,12 @@ import com.marcelholter.booksassignment.R
 import com.marcelholter.booksassignment.presentation.search.model.VolumePresentationModel
 import com.marcelholter.booksassignment.search.SearchAdapter.VolumeViewHolder
 import com.marcelholter.booksassignment.util.bindView
+import com.marcelholter.booksassignment.util.hide
 import com.marcelholter.booksassignment.util.loadUri
+import com.marcelholter.booksassignment.util.show
 
 // Named type for function that takes volume as parameter for click actions
-typealias OnVolumeClick = (VolumePresentationModel) -> Unit
+typealias OnVolumeClick = (VolumePresentationModel, View) -> Unit
 
 /**
  * Adapter for volumes
@@ -31,11 +33,16 @@ class SearchAdapter(
 
   override fun onBindViewHolder(holder: VolumeViewHolder, position: Int) {
     val volume = volumes[position]
-    holder.itemView.setOnClickListener { onVolumeClick(volume) }
+    holder.itemView.setOnClickListener { onVolumeClick(volume, holder.coverImageView) }
     volume.imageLinks.thumbnail?.let { holder.coverImageView.loadUri(it) }
     holder.titleTextView.text = volume.title
     holder.authorTextView.text = volume.authors.joinToString(", ")
     holder.ratingBar.rating = volume.averageRating
+    if (volume.previewLink == null) {
+      holder.previewImageView.hide()
+    } else {
+      holder.previewImageView.show()
+    }
   }
 
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VolumeViewHolder {
@@ -63,6 +70,7 @@ class SearchAdapter(
     val titleTextView: TextView by bindView(R.id.vh_volume_text_view_title)
     val authorTextView: TextView by bindView(R.id.vh_volume_text_view_author)
     val ratingBar: RatingBar by bindView(R.id.vh_volume_rating_bar)
+    val previewImageView: ImageView by bindView(R.id.vh_volume_image_view_preview)
   }
 
   /**

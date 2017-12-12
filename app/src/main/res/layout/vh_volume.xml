@@ -75,9 +75,24 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:transitionName="vh_volume_rating_bar"
         app:layout_constraintBottom_toBottomOf="@id/vh_volume_image_view_cover"
         app:layout_constraintStart_toEndOf="@id/vh_volume_image_view_cover"
         style="@style/Base.Widget.AppCompat.RatingBar.Small"
+        />
+
+    <ImageView
+        android:id="@+id/vh_volume_image_view_preview"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_library_books_black_48dp"
+        android:tint="@color/colorAccent"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:visibility="visible"
         />
 
   </android.support.constraint.ConstraintLayout>

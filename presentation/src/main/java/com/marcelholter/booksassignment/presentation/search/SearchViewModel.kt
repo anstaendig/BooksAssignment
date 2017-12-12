@@ -28,7 +28,8 @@ class SearchViewModel
       volumes = emptyList()
   )
 
-  override val eventsRelay: PublishRelay<SearchEvent> = PublishRelay.create()
+  private val eventsRelay: PublishRelay<SearchEvent> = PublishRelay.create()
+
   override val viewStates: Observable<SearchViewState> =
       eventsRelay
           // Event -> Action
@@ -44,6 +45,10 @@ class SearchViewModel
           .replay(1)
           // Stream shall stay alive even if view unsubscribes/disconnects.
           .autoConnect(0)
+
+  override fun processEvents(events: Observable<SearchEvent>) {
+    events.subscribe(eventsRelay)
+  }
 
   /**
    * Map event to it's specific action

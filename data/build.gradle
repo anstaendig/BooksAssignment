@@ -16,7 +16,6 @@ dependencies {
   implementation dependencies.retrofitConverterMoshi
   implementation dependencies.retrofitAdapterRxJava2
   implementation dependencies.moshi
-  implementation dependencies.moshiKotlin
   implementation dependencies.moshiAdapters
   implementation dependencies.okHttp
   implementation dependencies.okHttpLoggingInterceptor
