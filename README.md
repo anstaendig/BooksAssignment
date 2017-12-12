@@ -16,6 +16,7 @@ The view and presentation layers are implemented in a reactive manner. Data flow
  - [RxJava](https://github.com/ReactiveX/RxJava) for asynchronous data fetching/manipulation
  - [RxRelay](https://github.com/JakeWharton/RxRelay) to wrap subjects for error less event streams
  - [Retrofit](http://square.github.io/retrofit/) as a http client
+ - [Moshi](https://github.com/square/moshi) for json de-/serialisation
  - [Picasso](http://square.github.io/picasso/) for image loading
  - [AssertJ](http://joel-costigliola.github.io/assertj/) for fluent assertions
  - [Mockito](http://site.mockito.org/) as a mocking framework
